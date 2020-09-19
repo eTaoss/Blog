@@ -1,0 +1,53 @@
+version: "3"
+
+networks:
+  directus:
+
+services:
+  www:
+    build: .
+    ports: 
+      - "8001:80"
+    volumes:
+      - ./www:/var/www/html/
+      - ./www/blogAPI/API/Posts:/var/www/html/blogAPI/
+    links:
+      - mysql
+    networks:
+      - directus
+      
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: "directus"
+      MYSQL_USER: "directus"
+      MYSQL_PASSWORD: "directus"
+      MYSQL_ROOT_PASSWORD: "directus"
+    ports:
+      - "3306:3306"
+    networks:
+      - directus
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  directus:
+    image: directus/directus:v8-apache
+    ports:
+      - "8080:80"
+    environment:
+      DIRECTUS_APP_ENV: "development"
+      DIRECTUS_AUTH_PUBLICKEY: "some random secret"
+      DIRECTUS_AUTH_SECRETKEY: "another random secret"
+      DIRECTUS_DATABASE_HOST: "mysql"
+      DIRECTUS_DATABASE_PORT: "3306"
+      DIRECTUS_DATABASE_NAME: "directus"
+      DIRECTUS_DATABASE_USERNAME: "directus"
+      DIRECTUS_DATABASE_PASSWORD: "directus"
+    volumes:
+      - ./data/config:/var/directus/config
+      - ./data/uploads:/var/directus/public/uploads    
+    networks:
+      - directus
+
+volumes:
+  mysql_data:

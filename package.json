@@ -1,0 +1,26 @@
+{
+  "name": "jansblog",
+  "version": "1.0.0",
+  "description": "blog for anything",
+  "main": "build.js",
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node ."
+  },
+  "keywords": [
+    "blog",
+    "headlesscms"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.7.6",
+    "jstransformer-handlebars": "^1.1.0",
+    "jstransformer-markdown": "^1.2.1",
+    "metalsmith": "^2.3.0",
+    "metalsmith-collections": "^0.9.0",
+    "metalsmith-in-place": "^4.4.1",
+    "metalsmith-layouts": "^2.3.1",
+    "metalsmith-markdown": "^1.3.0"
+  }
+}
