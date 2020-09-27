@@ -4,6 +4,9 @@ var collections = require('metalsmith-collections');
 var layouts = require('metalsmith-layouts');
 var handlebars = require('handlebars');
 var discoverPartials = require('metalsmith-discover-partials');
+var permalinks = require('metalsmith-permalinks');
+var serve = require('metalsmith-serve');
+var watch = require('metalsmith-watch');
 
 metalsmith(__dirname)
 .metadata({
@@ -26,6 +29,20 @@ metalsmith(__dirname)
   },
 }))
 .use(markdown())
+.use(permalinks({
+  relative: false,
+  pattern: ':title',
+}))
+.use(serve({
+  port: 8081,
+  verbose: true
+}))
+.use(watch({
+  paths: {
+    "${source}/**/*": true,
+    "layout/**/*": "**/*",
+  }
+}))
 .use(layouts({
   engine: 'handlebars',
   directory: './blog/layouts',
