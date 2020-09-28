@@ -7,6 +7,8 @@ var discoverPartials = require('metalsmith-discover-partials');
 var permalinks = require('metalsmith-permalinks');
 var serve = require('metalsmith-serve');
 var watch = require('metalsmith-watch');
+var sass = require('metalsmith-sass');
+var assets = require('metalsmith-assets');
 
 metalsmith(__dirname)
 .metadata({
@@ -42,6 +44,15 @@ metalsmith(__dirname)
     "${source}/**/*": true,
     "layout/**/*": "**/*",
   }
+}))
+.use(assets({
+  source: './blog/assets',
+  destination: './assets',
+  outputStyle: "expanded"
+}))
+.use(sass({
+  includePaths: ['./blog/assets/styles'],
+  outputDir: 'css/'
 }))
 .use(layouts({
   engine: 'handlebars',
